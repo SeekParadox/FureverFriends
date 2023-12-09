@@ -39,3 +39,11 @@ class Animal_vaccine(models.Model):
 
     class Meta:
         unique_together = (("id", "name"),)
+
+
+class Breed(models.Model):
+    animal = models.CharField(max_length=256, primary_key=True)
+    breed_name = models.CharField(max_length=256, primary_key=True)
+
+    class Meta:
+        unique_together = (("animal", "breed_name"),)

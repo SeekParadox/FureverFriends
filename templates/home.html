@@ -4,35 +4,63 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="{% static '/css/home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/home.css' %}">
 </head>
 <body>
 <header>
-    <img src="{% static '/images/fureverfriends.png' %}"  alt="FurEver Friends">
+    <img src="{% static '/images/fureverfriends.png' %}" alt="FurEver Friends">
 </header>
 <nav>
     <ul>
-        <li> <a>Faq</a></li>
+        <li><a>Faq</a></li>
     </ul>
 </nav>
 <section class="main">
     <h1>Want to Adopt?</h1>
-    <ul>
-        <li>Cat</li>
-        <li>Dog</li>
-        <li>Other Pets</li>
+    <ul class="animal-type">
+        <li id="cat-button" class="active-checkbox" onclick="setActive(this)">Cat</li>
+        <li id="dog-button" onclick="setActive(this)">Dog</li>
+        <li id="other-pets" onclick="setActive(this)">Other Pets</li>
     </ul>
 
-    <form action="" >
-        <input type="search" placeholder="Location (i.e. Miami, FL or 33187)" name="Location">
-        <div class="animal-selection">
-        <select>
 
-        </select>
-        </div>
-
+    <form id="adoption-type" action="">
 
     </form>
+    <script>
+        const setActive = (item) => {
+            const clickedButton = document.getElementById(item.id);
+            const className = "active-checkbox";
+            const elems = document.querySelectorAll(".active-checkbox");
+            fetch(url, {
+                method: "GET",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                });
+
+            for (let i = 0; i < elems.length; i++) elems[0].classList.remove(className);
+
+            clickedButton.classList.add("active-checkbox");
+            console.log(clickedButton);
+            const adoptionType = document.getElementById("adoption-type");
+            adoptionType.innerHTML = `
+            <input type="search" placeholder="Location (i.e. Miami, FL or 33187)" name="Location">
+                <div class="animal-selection">
+                    <select name="breed" id="breed">
+                        <option value="Any"> Any</option><label>
+                     </select>
+                    <select name="age" id="age">
+                        <option value="Any"> Any</option>
+                    </select>
+                </div> `
+
+        }
+    </script>
 </section>
 
 </body>

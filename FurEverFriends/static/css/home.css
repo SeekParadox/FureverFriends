@@ -1,0 +1,12 @@
+
+
+.animal-type li:hover {
+    cursor: pointer;
+}
+.active-checkbox {
+    font-weight: bold;
+}
+
+.active-checkbox:hover {
+    cursor: pointer;
+}
