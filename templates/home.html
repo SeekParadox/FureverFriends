@@ -25,44 +25,69 @@
     </ul>
 
 
-    <form id="adoption-type" action="">
+    <form id="adoption-type" action="/pet-search/" method="get">
 
     </form>
-    <script>
-        const setActive = (item) => {
-            const clickedButton = document.getElementById(item.id);
-            const className = "active-checkbox";
-            const elems = document.querySelectorAll(".active-checkbox");
-            fetch(url, {
-                method: "GET",
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest",
-                }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                });
 
-            for (let i = 0; i < elems.length; i++) elems[0].classList.remove(className);
-
-            clickedButton.classList.add("active-checkbox");
-            console.log(clickedButton);
-            const adoptionType = document.getElementById("adoption-type");
-            adoptionType.innerHTML = `
-            <input type="search" placeholder="Location (i.e. Miami, FL or 33187)" name="Location">
-                <div class="animal-selection">
-                    <select name="breed" id="breed">
-                        <option value="Any"> Any</option><label>
-                     </select>
-                    <select name="age" id="age">
-                        <option value="Any"> Any</option>
-                    </select>
-                </div> `
-
-        }
-    </script>
 </section>
 
 </body>
+<script>
+
+    {# Method for collecting the animals breed   #}
+    const w = async (text) => {
+        return await fetch(`http://127.0.0.1:8000/animal-option/?animal=${text}`, {
+            method: "GET",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+            }
+        });
+    };
+
+    const setActive = (item) => {
+        {#const activeButton = document.getElementById(item.id);#}
+        const className = "active-checkbox";
+        const elems = document.querySelectorAll(".active-checkbox");
+        elems.forEach(function (element) {
+            element.classList.remove(className);
+        });
+        item.classList.add(className)
+        const adoptionType = document.getElementById("adoption-type");
+        const formData = w(item.textContent);
+
+        formData.then(response => response.json())
+            .then(data => {
+                console.log(data.context)
+                const breeds = data.context;
+                let breedSelect = '<select name="breed" id="breed">' +
+                    '<option value="Any"> Any</option><label>';
+
+                for (let i = 0; i < breeds.length; i++) {
+                    const breed = breeds[i].breed_name;
+                    breedSelect += `<option value=${breed}> ${breed} </option>`
+                }
+                breedSelect += ' </select>';
+
+
+                adoptionType.innerHTML = `
+            <input type="search" placeholder="Location (i.e. Miami, FL or 33187)" name="Location" required>
+                <div class="animal-selection">
+                    ${breedSelect}
+                    <select name="age" id="age">
+                        <option value="Any"> Any</option>
+                    </select>
+
+                </div>
+                    <input type="submit" value="Submit">`
+
+
+            }).catch();
+
+    }
+
+    const elem = document.querySelector(".active-checkbox");
+    setActive(elem);
+
+
+</script>
 </html>

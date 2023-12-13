@@ -48,6 +48,8 @@ class Breed(models.Model):
 
     class Meta:
         unique_together = (("animal", "breed_name"),)
+        db_table = 'BREED'
+
 
     def __str__(self):
         return self.breed_name
