@@ -1,11 +1,24 @@
+from django.forms import forms
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.template import loader
 from .models import Breed
+from .pet_search import get_types
+import json
 
 
 def home(request):
+    """
+    Renders the home page
+    :param request:
+    :return:
+    """
     template = loader.get_template('home.html')
-    return HttpResponse(template.render())
+    json_types_response = get_types()
+    if json_types_response.status_code == 200:
+        json_types = json.dumps(json_types_response.text)
+        context = {'json_types': json_types}
+        return HttpResponse(template.render(context, request))
+
 
 
 def pet_search(request):

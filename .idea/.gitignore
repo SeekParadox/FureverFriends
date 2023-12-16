@@ -6,3 +6,6 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+
+#API CREDENTIALS AND CALLS
+../FurEverFriends/FurEverFriends/pet_search.py
